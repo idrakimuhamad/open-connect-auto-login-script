@@ -4,7 +4,7 @@ A script to automate (semi-automate) the login process to Cisco AnyConnect Mobil
 
 ## Before started
 
-You going to need below items before you can proceed:
+You are going to need below items before you can proceed:
 
 * the `.stid` file. Usually you get this file from your VPN administrator
 * `stoken` must be installed first. install using brew. If you don't have brew, install it first
@@ -51,7 +51,13 @@ printf "$STAFF_ID\n$PIN\n$PASSWORD\ny" | /opt/cisco/anyconnect/bin/vpn -s connec
 
 The flag `y` in the script is for Prompt Banner. If you do not have that case, remove it.
 
-Save it, and run it. See if its working. Should see something like below
+Save it, and run below to give it permission
+
+```sh
+chmod 755 vpn.sh
+```
+
+Run it and see if its working. Should see something like below:
 
 ```sh
 Cisco AnyConnect Secure Mobility Client (version 4.8.00175) .
@@ -118,3 +124,5 @@ Copyright (c) 2004 - 2019 Cisco Systems, Inc.  All Rights Reserved.
 ```
 
 Done.
+
+You can go beyond by creating an alias to the script to make it easier to trigger it anytime.
