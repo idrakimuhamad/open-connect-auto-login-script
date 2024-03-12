@@ -1,11 +1,12 @@
-# anyconnect-auto-login-script
+# Auto VPN connection with OpenConnect 
 
-A script to automate (semi-automate) the login process to Cisco AnyConnect Mobility Client.
+A script to automate (semi-automate) the login process through OpenConnect
 
-## Before started
+## Getting started
 
 You are going to need below items before you can proceed:
 
+* Install `openconnect` using brew. If you don't have brew, install it first.
 * the `.stid` file. Usually you get this file from your VPN administrator
 * `stoken` must be installed first. install using brew. If you don't have brew, install it first
 * validate that you do have VPN client installed
@@ -34,95 +35,12 @@ Once it is done, run the below and compare it with your SecureID app making sure
 stoken tokencode
 ```
 
-Once this is done, proceed to edit the `vpn.sh` file with your data.
+Once this is done, proceed to edit the `config.cfg` file with your data.
 
-### Update the script
-
-```sh
-HOST='HOST_URL.com'
-PASSCODE='123456' // secure id pin
-PASSWORD='PASSWORD' // your company password
-STAFF_ID='11111' // your VPN username
-TOKEN=$(stoken tokencode -p $PASSCODE) // this will generate the token for secureID
-PIN=$PASSCODE$TOKEN // for my case, the first password is a combination of the PASSCODE + TOKEN
-
-printf "$STAFF_ID\n$PIN\n$PASSWORD\ny" | /opt/cisco/anyconnect/bin/vpn -s connect $HOST
-```
-
-The flag `y` in the script is for Prompt Banner. If you do not have that case, remove it.
-
-Save it, and run below to give it permission
+Run below to give the `vpn.sh` permission
 
 ```sh
 chmod 755 vpn.sh
 ```
 
-Run it and see if its working. Should see something like below:
-
-```sh
-Cisco AnyConnect Secure Mobility Client (version 4.8.00175) .
-
-Copyright (c) 2004 - 2019 Cisco Systems, Inc.  All Rights Reserved.
-
-
-  >> state: Disconnected
-  >> state: Disconnected
-  >> notice: Ready to connect.
-  >> registered with local VPN subsystem.
-  >> contacting host (xxx.xxxx.com) for login information...
-  >> notice: Contacting xxx.xxxx.com.
-
-  >> Awaiting user input.
-
-Username: [xxxxxx] xxxxxx
-Passcode:
-Second Password:
-  >> notice: Please respond to banner.
-
-This system is a property of XXXXXX and is a private system. All access is monitored and logged. Unauthorized use is prohibited and illegal access will be prosecuted to the full extent of the law.
-
-Permission assigned: XXXXXXXXXX
-
-  >> state: Connecting
-  >> notice: Establishing VPN session...
-  >> notice: The AnyConnect Downloader is performing update checks...
-  >> notice: Checking for profile updates...
-  >> notice: Checking for customization updates...
-  >> notice: Performing any required updates...
-  >> notice: The AnyConnect Downloader updates have been completed.
-  >> state: Connecting
-  >> notice: Establishing VPN session...
-  >> notice: Establishing VPN - Initiating connection...
-  >> notice: Establishing VPN - Examining system...
-  >> notice: Establishing VPN - Activating VPN adapter...
-  >> notice: Establishing VPN - Configuring system...
-  >> notice: Establishing VPN...
-  >> state: Connected
-```
-
-Test your connection and make sure stuff's working.
-
-The script `disconnectVpn.sh` will disconnect the connection. When run, it will show something like below.
-
-```sh
-Cisco AnyConnect Secure Mobility Client (version 4.8.00175) .
-
-Copyright (c) 2004 - 2019 Cisco Systems, Inc.  All Rights Reserved.
-
-
-  >> state: Connected
-  >> state: Connected
-  >> registered with local VPN subsystem.
-  >> state: Disconnecting
-  >> notice: Disconnect in progress, please wait...
-  >> state: Connected
-  >> notice: Connected to vpn.rhbgroup.com.
-  >> state: Disconnecting
-  >> notice: Disconnect in progress, please wait...
-  >> state: Disconnecting
-  >> state: Disconnected
-```
-
-Done.
-
-You can go beyond by creating an alias to the script to make it easier to trigger it anytime.
+The script provided way to connect to VPN with our without splitting. To use the splitting feature, you need to install [`vpn-slice`](https://github.com/dlenski/vpn-slice) first.
